@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, useRef } from 'react'
+import { upload } from '@vercel/blob/client'
 
 type Step = 'intro' | 'form' | 'thanks'
 
@@ -40,15 +41,11 @@ export default function Home() {
     setPhotoPreview(URL.createObjectURL(file))
     setUploading(true)
     try {
-      const data = new FormData()
-      data.append('file', file)
-      data.append('upload_preset', process.env.NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET!)
-      const res = await fetch(
-        `https://api.cloudinary.com/v1_1/${process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME}/image/upload`,
-        { method: 'POST', body: data }
-      )
-      const json = await res.json()
-      set('photoUrl', json.secure_url)
+      const blob = await upload(file.name, file, {
+        access: 'public',
+        handleUploadUrl: '/api/upload',
+      })
+      set('photoUrl', blob.url)
     } catch {
       alert('Photo upload failed. Please try again.')
     } finally {
