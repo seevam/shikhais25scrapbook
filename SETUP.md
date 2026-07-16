@@ -4,7 +4,7 @@
 - **Next.js 14** (App Router)
 - **Neon** (Postgres database)
 - **Prisma** (ORM)
-- **Cloudinary** (photo uploads)
+- **Vercel Blob** (photo uploads)
 - **Vercel** (hosting)
 
 ---
@@ -26,19 +26,13 @@ This creates the `Submission` table in your Neon database.
 
 ---
 
-## Step 2 - Cloudinary
+## Step 2 - Vercel Blob
 
-1. Go to [cloudinary.com](https://cloudinary.com) and create a free account
-2. From your dashboard, copy:
-   - **Cloud name**
-   - **API Key**
-   - **API Secret**
-3. Go to **Settings → Upload → Upload Presets**
-4. Click **Add upload preset**
-   - Name it: `shikha_scrapbook`
-   - Set Signing Mode to: **Unsigned**
-   - Save
-5. Add all values to `.env.local`
+1. Go to [vercel.com](https://vercel.com) and open your project
+2. Navigate to **Storage** → **Create Database** → **Blob**
+3. Follow the prompts — Vercel will automatically set `BLOB_READ_WRITE_TOKEN` in your project environment variables
+
+For local development, copy the token from your Vercel project's environment settings.
 
 ---
 
@@ -49,11 +43,7 @@ Create a `.env.local` file in the root:
 ```env
 DATABASE_URL="postgresql://user:password@host/dbname?sslmode=require"
 
-CLOUDINARY_CLOUD_NAME="your_cloud_name"
-CLOUDINARY_API_KEY="your_api_key"
-CLOUDINARY_API_SECRET="your_api_secret"
-NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME="your_cloud_name"
-NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET="shikha_scrapbook"
+BLOB_READ_WRITE_TOKEN="vercel_blob_rw_..."
 ```
 
 ---
