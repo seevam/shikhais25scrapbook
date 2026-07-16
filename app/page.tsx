@@ -44,6 +44,7 @@ export default function Home() {
       data.append('file', file)
       const res = await fetch('/api/upload', { method: 'POST', body: data })
       const json = await res.json()
+      if (!res.ok || !json.url) throw new Error('Upload failed')
       set('photoUrl', json.url)
     } catch {
       alert('Photo upload failed. Please try again.')

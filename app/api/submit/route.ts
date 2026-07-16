@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
+import { prisma } from '@/lib/prisma'
 
 export async function POST(req: NextRequest) {
   try {
@@ -8,9 +9,6 @@ export async function POST(req: NextRequest) {
     if (!name || !relation || !message || !firstMemory || !idealRelation || !videoVibe) {
       return NextResponse.json({ error: 'Missing required fields' }, { status: 400 })
     }
-
-    // Dynamic import so build doesn't fail without generated Prisma client
-    const { prisma } = await import('@/lib/prisma')
     const submission = await prisma.submission.create({
       data: { name, email: email || null, relation, photoUrl: photoUrl || null, message, firstMemory, idealRelation, videoVibe }
     })
