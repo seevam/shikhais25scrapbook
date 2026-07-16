@@ -42,13 +42,9 @@ export default function Home() {
     try {
       const data = new FormData()
       data.append('file', file)
-      data.append('upload_preset', process.env.NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET!)
-      const res = await fetch(
-        `https://api.cloudinary.com/v1_1/${process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME}/image/upload`,
-        { method: 'POST', body: data }
-      )
+      const res = await fetch('/api/upload', { method: 'POST', body: data })
       const json = await res.json()
-      set('photoUrl', json.secure_url)
+      set('photoUrl', json.url)
     } catch {
       alert('Photo upload failed. Please try again.')
     } finally {
@@ -263,13 +259,8 @@ function Intro({ onNext }: { onNext: () => void }) {
           ))}
         </div>
 
-        <div style={{ background: '#F3EEFF', border: '2px dashed #DDD0F0', borderRadius: 20, height: 200, display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: 20 }}>
-          <div style={{ textAlign: 'center' }}>
-            <div style={{ fontSize: 32, marginBottom: 8 }}>📖</div>
-            <div style={{ fontSize: 13, color: '#C4A8E0', lineHeight: 1.5 }}>
-              Sample scrapbook page<br /><span style={{ fontSize: 11 }}>(replace with your image)</span>
-            </div>
-          </div>
+        <div style={{ borderRadius: 20, overflow: 'hidden', marginBottom: 20 }}>
+          <img src="/sample-page.jpg" alt="Sample scrapbook page" style={{ width: '100%', display: 'block' }} />
         </div>
 
         <button onClick={onNext} style={styles.submitBtn}>Fill my page 💛</button>
